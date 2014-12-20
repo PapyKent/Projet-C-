@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TodoListUCBLModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="TodoListUCBLModelStoreContainer">
+    <EntitySet Name="UtilisateurSet" EntityType="TodoListUCBLModel.Store.UtilisateurSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CategorySet" EntityType="TodoListUCBLModel.Store.CategorySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TacheSet" EntityType="TodoListUCBLModel.Store.TacheSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EtatSet" EntityType="TodoListUCBLModel.Store.EtatSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CategoryTache" EntityType="TodoListUCBLModel.Store.CategoryTache" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="EtatTache" Association="TodoListUCBLModel.Store.EtatTache">
+      <End Role="Etat" EntitySet="EtatSet" />
+      <End Role="Tache" EntitySet="TacheSet" />
+    </AssociationSet>
+    <AssociationSet Name="UtilisateurTache" Association="TodoListUCBLModel.Store.UtilisateurTache">
+      <End Role="Utilisateur" EntitySet="UtilisateurSet" />
+      <End Role="Tache" EntitySet="TacheSet" />
+    </AssociationSet>
+    <AssociationSet Name="UtilisateurCategory" Association="TodoListUCBLModel.Store.UtilisateurCategory">
+      <End Role="Utilisateur" EntitySet="UtilisateurSet" />
+      <End Role="Category" EntitySet="CategorySet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CategoryTache_Category" Association="TodoListUCBLModel.Store.FK_CategoryTache_Category">
+      <End Role="Category" EntitySet="CategorySet" />
+      <End Role="CategoryTache" EntitySet="CategoryTache" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CategoryTache_Tache" Association="TodoListUCBLModel.Store.FK_CategoryTache_Tache">
+      <End Role="Tache" EntitySet="TacheSet" />
+      <End Role="CategoryTache" EntitySet="CategoryTache" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UtilisateurSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Prenom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CategorySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ParDefaut" Type="bit" Nullable="false" />
+    <Property Name="Utilisateur_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TacheSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Debut" Type="datetime" Nullable="false" />
+    <Property Name="Fin" Type="datetime" Nullable="false" />
+    <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Etat_Id" Type="int" Nullable="false" />
+    <Property Name="Utilisateur_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EtatSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Libelle" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CategoryTache">
+    <Key>
+      <PropertyRef Name="Categories_Id" />
+      <PropertyRef Name="Taches_Id" />
+    </Key>
+    <Property Name="Categories_Id" Type="int" Nullable="false" />
+    <Property Name="Taches_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="EtatTache">
+    <End Role="Etat" Type="TodoListUCBLModel.Store.EtatSet" Multiplicity="1" />
+    <End Role="Tache" Type="TodoListUCBLModel.Store.TacheSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Etat">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tache">
+        <PropertyRef Name="Etat_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UtilisateurTache">
+    <End Role="Utilisateur" Type="TodoListUCBLModel.Store.UtilisateurSet" Multiplicity="1" />
+    <End Role="Tache" Type="TodoListUCBLModel.Store.TacheSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateur">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tache">
+        <PropertyRef Name="Utilisateur_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UtilisateurCategory">
+    <End Role="Utilisateur" Type="TodoListUCBLModel.Store.UtilisateurSet" Multiplicity="1" />
+    <End Role="Category" Type="TodoListUCBLModel.Store.CategorySet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateur">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Category">
+        <PropertyRef Name="Utilisateur_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CategoryTache_Category">
+    <End Role="Category" Type="TodoListUCBLModel.Store.CategorySet" Multiplicity="1" />
+    <End Role="CategoryTache" Type="TodoListUCBLModel.Store.CategoryTache" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CategoryTache">
+        <PropertyRef Name="Categories_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CategoryTache_Tache">
+    <End Role="CategoryTache" Type="TodoListUCBLModel.Store.CategoryTache" Multiplicity="*" />
+    <End Role="Tache" Type="TodoListUCBLModel.Store.TacheSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Tache">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CategoryTache">
+        <PropertyRef Name="Taches_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TodoListUCBLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TodoListUCBLEntities" annotation:LazyLoadingEnabled="false" >
+          <EntitySet Name="UtilisateurSet" EntityType="TodoListUCBLModel.Utilisateur" />
+          <EntitySet Name="CategorySet" EntityType="TodoListUCBLModel.Category" />
+          <EntitySet Name="TacheSet" EntityType="TodoListUCBLModel.Tache" />
+          <EntitySet Name="EtatSet" EntityType="TodoListUCBLModel.Etat" />
+          <AssociationSet Name="EtatTache" Association="TodoListUCBLModel.EtatTache">
+            <End Role="Etat" EntitySet="EtatSet" />
+            <End Role="Tache" EntitySet="TacheSet" />
+          </AssociationSet>
+          <AssociationSet Name="UtilisateurTache" Association="TodoListUCBLModel.UtilisateurTache">
+            <End Role="Utilisateur" EntitySet="UtilisateurSet" />
+            <End Role="Tache" EntitySet="TacheSet" />
+          </AssociationSet>
+          <AssociationSet Name="UtilisateurCategory" Association="TodoListUCBLModel.UtilisateurCategory">
+            <End Role="Utilisateur" EntitySet="UtilisateurSet" />
+            <End Role="Category" EntitySet="CategorySet" />
+          </AssociationSet>
+          <AssociationSet Name="CategoryTache" Association="TodoListUCBLModel.CategoryTache">
+            <End Role="Category" EntitySet="CategorySet" />
+            <End Role="Tache" EntitySet="TacheSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Utilisateur">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" />
+          <Property Name="Prenom" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="Login" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" />
+          <NavigationProperty Name="Taches" Relationship="TodoListUCBLModel.UtilisateurTache" FromRole="Utilisateur" ToRole="Tache" />
+          <NavigationProperty Name="Categories" Relationship="TodoListUCBLModel.UtilisateurCategory" FromRole="Utilisateur" ToRole="Category" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" />
+          <Property Name="ParDefaut" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Utilisateur" Relationship="TodoListUCBLModel.UtilisateurCategory" FromRole="Category" ToRole="Utilisateur" />
+          <NavigationProperty Name="Taches" Relationship="TodoListUCBLModel.CategoryTache" FromRole="Category" ToRole="Tache" />
+        </EntityType>
+        <EntityType Name="Tache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" />
+          <Property Name="Debut" Type="DateTime" Nullable="false" />
+          <Property Name="Fin" Type="DateTime" Nullable="false" />
+          <Property Name="Detail" Type="String" Nullable="false" />
+          <NavigationProperty Name="Etat" Relationship="TodoListUCBLModel.EtatTache" FromRole="Tache" ToRole="Etat" />
+          <NavigationProperty Name="Utilisateur" Relationship="TodoListUCBLModel.UtilisateurTache" FromRole="Tache" ToRole="Utilisateur" />
+          <NavigationProperty Name="Categories" Relationship="TodoListUCBLModel.CategoryTache" FromRole="Tache" ToRole="Category" />
+        </EntityType>
+        <EntityType Name="Etat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" />
+          <Property Name="Libelle" Type="String" Nullable="false" />
+          <NavigationProperty Name="Taches" Relationship="TodoListUCBLModel.EtatTache" FromRole="Etat" ToRole="Tache" />
+        </EntityType>
+        <Association Name="EtatTache">
+          <End Type="TodoListUCBLModel.Etat" Role="Etat" Multiplicity="1" />
+          <End Type="TodoListUCBLModel.Tache" Role="Tache" Multiplicity="*" />
+        </Association>
+        <Association Name="UtilisateurTache">
+          <End Type="TodoListUCBLModel.Utilisateur" Role="Utilisateur" Multiplicity="1" />
+          <End Type="TodoListUCBLModel.Tache" Role="Tache" Multiplicity="*" />
+        </Association>
+        <Association Name="UtilisateurCategory">
+          <End Type="TodoListUCBLModel.Utilisateur" Role="Utilisateur" Multiplicity="1" />
+          <End Type="TodoListUCBLModel.Category" Role="Category" Multiplicity="*" />
+        </Association>
+        <Association Name="CategoryTache">
+          <End Type="TodoListUCBLModel.Category" Role="Category" Multiplicity="*" />
+          <End Type="TodoListUCBLModel.Tache" Role="Tache" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TodoListUCBLModelStoreContainer" CdmEntityContainer="TodoListUCBLEntities">
+    <EntitySetMapping Name="UtilisateurSet">
+      <EntityTypeMapping TypeName="IsTypeOf(TodoListUCBLModel.Utilisateur)">
+        <MappingFragment StoreEntitySet="UtilisateurSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CategorySet">
+      <EntityTypeMapping TypeName="IsTypeOf(TodoListUCBLModel.Category)">
+        <MappingFragment StoreEntitySet="CategorySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="ParDefaut" ColumnName="ParDefaut" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TacheSet">
+      <EntityTypeMapping TypeName="IsTypeOf(TodoListUCBLModel.Tache)">
+        <MappingFragment StoreEntitySet="TacheSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="Debut" ColumnName="Debut" />
+          <ScalarProperty Name="Fin" ColumnName="Fin" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EtatSet">
+      <EntityTypeMapping TypeName="IsTypeOf(TodoListUCBLModel.Etat)">
+        <MappingFragment StoreEntitySet="EtatSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Libelle" ColumnName="Libelle" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="EtatTache" TypeName="TodoListUCBLModel.EtatTache" StoreEntitySet="TacheSet">
+      <EndProperty Name="Etat">
+        <ScalarProperty Name="Id" ColumnName="Etat_Id" />
+      </EndProperty>
+      <EndProperty Name="Tache">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UtilisateurTache" TypeName="TodoListUCBLModel.UtilisateurTache" StoreEntitySet="TacheSet">
+      <EndProperty Name="Utilisateur">
+        <ScalarProperty Name="Id" ColumnName="Utilisateur_Id" />
+      </EndProperty>
+      <EndProperty Name="Tache">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UtilisateurCategory" TypeName="TodoListUCBLModel.UtilisateurCategory" StoreEntitySet="CategorySet">
+      <EndProperty Name="Utilisateur">
+        <ScalarProperty Name="Id" ColumnName="Utilisateur_Id" />
+      </EndProperty>
+      <EndProperty Name="Category">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CategoryTache" TypeName="TodoListUCBLModel.CategoryTache" StoreEntitySet="CategoryTache">
+      <EndProperty Name="Category">
+        <ScalarProperty Name="Id" ColumnName="Categories_Id" />
+      </EndProperty>
+      <EndProperty Name="Tache">
+        <ScalarProperty Name="Id" ColumnName="Taches_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
