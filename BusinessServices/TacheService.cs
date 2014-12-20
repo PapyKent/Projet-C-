@@ -61,7 +61,7 @@ namespace TodoListUCBL.BusinessServices
             return tache;
         }
 
-         public BETache modifierTache(int id, string nom, string detail, DateTime debut, DateTime fin)
+         public BETache modifierTache(int id, string nom, string detail, DateTime debut, DateTime fin, int idUser)
         {
             TacheDao tacheDao = new TacheDao();
 
@@ -75,7 +75,7 @@ namespace TodoListUCBL.BusinessServices
 
             try
             {
-                tache = tacheDao.modifierTache(id, nom, detail, debut, fin);
+                tache = tacheDao.modifierTache(id, nom, detail, debut, fin,idUser);
                 if(tache == null)
                 {
                     throw new Exception("La tache est null.");
@@ -83,7 +83,7 @@ namespace TodoListUCBL.BusinessServices
             }
             catch (Exception ex)
             {
-                throw new Exception("Une erreur est survenue lors de la modification de la tache.", ex);
+                //throw new Exception("Une erreur est survenue lors de la modification de la tache.", ex);
             }
 
             return tache;
@@ -107,7 +107,7 @@ namespace TodoListUCBL.BusinessServices
              }
              catch (Exception ex)
              {
-                 throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
+                // throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
              }
 
              return list;

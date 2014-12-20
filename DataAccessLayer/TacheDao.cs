@@ -106,7 +106,7 @@ namespace TodoListUCBL.DataAccessLayer
             }
         }
 
-        public BETache modifierTache(int id, string nom, string detail, DateTime debut, DateTime fin)
+        public BETache modifierTache(int id, string nom, string detail, DateTime debut, DateTime fin, int idUser)
         {
             //Contrôle
             if (string.IsNullOrWhiteSpace(nom))
@@ -116,10 +116,6 @@ namespace TodoListUCBL.DataAccessLayer
             if (string.IsNullOrWhiteSpace(detail))
             {
                 throw new ArgumentException("Veuillez renseigner le detail de la tache.", "detail");
-            }
-            if (debut < DateTime.Now)
-            {
-                throw new ArgumentException("Veuillez renseigner une date de debut valide.", "debut");
             }
             if (fin < DateTime.Now || fin < debut)
             {
@@ -155,19 +151,17 @@ namespace TodoListUCBL.DataAccessLayer
                 retour.Debut = t.Debut;
                 retour.Fin = t.Fin;
                 retour.Detail = t.Detail;
-                foreach (Category cat in t.Categories)
-                {
-                    BECategory categ = new BECategory();
-                    categ.Id = cat.Id;
-                    categ.Nom = cat.Nom;
-                    categ.ParDefaut = cat.ParDefaut;
-                    retour.Categories.Add(categ);
-                }
+
                 BEEtat etat = new BEEtat();
-                etat.Id = t.Etat.Id;
                 etat.Libelle = t.Etat.Libelle;
                 etat.Code = t.Etat.Code;
                 retour.Etat = etat;
+
+                BEUtilisateur beUh = new BEUtilisateur();
+                beUh.Id = idUser;
+
+                retour.Utilisateur = beUh;
+
                 return retour;
             }
         }
@@ -185,7 +179,11 @@ namespace TodoListUCBL.DataAccessLayer
           
             using (TodoListUCBLEntities context = new TodoListUCBLEntities())
             {
-               
+                Utilisateur util = context.UtilisateurSet.First(c => c.Id == idUser);
+                BEUtilisateur beUtil = new BEUtilisateur();
+                beUtil.Id = util.Id;
+                
+
                 List<BETache> retour = new List<BETache>();
                 IQueryable<Tache> list = context.TacheSet.Where(c => c.Utilisateur.Id == idUser);
                
@@ -197,6 +195,8 @@ namespace TodoListUCBL.DataAccessLayer
                         tach.Debut = t.Debut;
                         tach.Fin = t.Fin;
                         tach.Detail = t.Detail;
+
+                        tach.Utilisateur = beUtil;
                         retour.Add(tach);
                     }
                    

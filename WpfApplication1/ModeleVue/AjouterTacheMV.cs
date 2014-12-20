@@ -7,8 +7,23 @@ using System.Threading.Tasks;
 
 namespace TodoListUCBL.WPFView.ModeleVue
 {
+    
     public class AjouterTacheMV : INotifyPropertyChanged
     {
+       
+
+        public AjouterTacheMV()
+        {
+           
+        }
+        public AjouterTacheMV(int id,string nom, DateTime debut, DateTime fin, string detail)
+        {
+        
+            this.nom = nom;
+            this.debut = debut;
+            this.fin = fin;
+            this.detail = detail;
+        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void RaisePropertyChanged(String property)

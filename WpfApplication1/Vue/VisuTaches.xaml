@@ -9,6 +9,8 @@
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
@@ -20,7 +22,7 @@
             
             <!--<ListBox Grid.Row="2" Grid.Column="1" Name="TachesList" ItemsSource="{Binding Tables[0]}" ItemTemplate="{StaticResource listBoxTemplate}"/>-->
           
-                <ListBox Grid.Row="2" Grid.Column="1" Name="TachesList" HorizontalContentAlignment="Stretch">
+                <ListBox Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="1" Name="TachesList" HorizontalContentAlignment="Stretch">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="0,2">
@@ -38,10 +40,12 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-           
 
 
-            <Button  Content="Supprimation" Grid.Row="3" Grid.Column="1"  Height="50" Width="150" Name="SupprTache" VerticalAlignment="Center" HorizontalAlignment="Left" Click="DeleteButton_Click" Style="{StaticResource BlackButton}"/>
+
+            <Button  Content="Supprimation" Grid.Row="3" Grid.Column="1"  Height="50" Width="150" Name="SupprTache" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="DeleteButton_Click" Style="{StaticResource BlackButton}"/>
+            <Button  Content="Modilification" Grid.Row="3" Grid.Column="3"  Height="50" Width="150" Name="ModifTache" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="ModifyButton_Click" Style="{StaticResource BlackButton}"/>
+
         </Grid>
     </Border>
 </Window>

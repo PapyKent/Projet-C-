@@ -27,7 +27,11 @@ namespace TodoListUCBL.WPFView.ModeleVue
             this.AfficheCommand = new CommandImpl(this.ExecuteAffiche, this.CanExecuteAffiche);
             this.AjouterCategoryCommand = new CommandImpl(this.ExecuteAjouterCategory, this.CanExecuteAjouterCategory);
             this.VisualiserCategoryCommand = new CommandImpl(this.ExecuteVisualiserCategory, this.CanExecuteVisualiserCategory);
-        }
+          }
+
+
+      
+
 
         private ConnectionInfosMV connectionInfos;
 
@@ -116,13 +120,9 @@ namespace TodoListUCBL.WPFView.ModeleVue
             VisuTachesMV vtmv = new VisuTachesMV();
             TacheService tache = new TacheService();
             VisuTaches vt = new VisuTaches(vtmv, tache.VisualiserTache(this.ConnectionInfos.UtilisateurConnecte.Id));
-           
-            if (vt.ShowDialog() == true)
-            {
-                
-               
-               
-              }
+
+            vt.ShowDialog();
+            
 
         }
 
@@ -154,5 +154,8 @@ namespace TodoListUCBL.WPFView.ModeleVue
         }
 
         #endregion
+
+
+        
     }
 }

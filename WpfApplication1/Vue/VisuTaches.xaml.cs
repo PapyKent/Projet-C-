@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TodoListUCBL.BusinessEntities;
+using TodoListUCBL.BusinessServices;
+using TodoListUCBL.WPFView.ModeleVue;
+using TodoListUCBL.WPFView.Tools;
 
 namespace TodoListUCBL.WPFView.Vue
 {
@@ -43,22 +46,48 @@ namespace TodoListUCBL.WPFView.Vue
             List<TodoItem> items = new List<TodoItem>();
            foreach( BETache be in list)
            {
-               items.Add(new TodoItem() { Title = be.Nom , Id= be.Id});             
+               items.Add(new TodoItem() { Title = be.Nom , Id= be.Id, User=be.Utilisateur.Id, Deb=be.Debut, Fin=be.Fin, Detail=be.Detail});             
            }       
+           
            TachesList.ItemsSource = items;
        }
+
+
        private void DeleteButton_Click(object sender, RoutedEventArgs e)
        {
-           this.DialogResult = true;
-           this.Close();
+           TacheService ts = new TacheService();
+          
+               ts.supprimerTache((TachesList.SelectedItem as TodoItem).Id);
+               int idUser = (TachesList.SelectedItem as TodoItem).User;
+               BindData(ts.VisualiserTache(idUser));
+           
        }
+
+
+       private void ModifyButton_Click(object sender, RoutedEventArgs e)
+       {
+           AjouterTacheMV atmv = new AjouterTacheMV((TachesList.SelectedItem as TodoItem).Id, (TachesList.SelectedItem as TodoItem).Title, (TachesList.SelectedItem as TodoItem).Deb, (TachesList.SelectedItem as TodoItem).Fin, (TachesList.SelectedItem as TodoItem).Detail);
+           AjouterTache at = new AjouterTache(atmv);
+           if (at.ShowDialog() == true)
+           {
+               TacheService tache = new TacheService();
+               int idUser = (TachesList.SelectedItem as TodoItem).User;
+               tache.modifierTache((TachesList.SelectedItem as TodoItem).Id, atmv.Nom, atmv.Detail, atmv.Debut, atmv.Fin, idUser);
+               BindData(tache.VisualiserTache(idUser));
+           }
+       }
+
 
     }
 
     public class TodoItem
     {
         public string Title { get; set; }
+        public string Detail { get; set; }
         public int Id { get; set; }
+        public int User { get; set; }
+        public DateTime Deb { get; set; }
+        public DateTime Fin { get; set; }
     }
 
 }
