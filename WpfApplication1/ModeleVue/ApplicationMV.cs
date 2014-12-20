@@ -58,12 +58,13 @@ namespace TodoListUCBL.WPFView.ModeleVue
 
         private void ExecuteAjouterTache(object o)
         {
+            CategoryService cat = new CategoryService();
             AjouterTacheMV atmv = new AjouterTacheMV();
-            AjouterTache at = new AjouterTache(atmv);
+            AjouterTache at = new AjouterTache(atmv,cat.GetCategories(this.ConnectionInfos.UtilisateurConnecte.Id));
             if(at.ShowDialog() == true)
             {
                 TacheService tache = new TacheService();
-                tache.AjouterTache(this.ConnectionInfos.UtilisateurConnecte.Id, atmv.Nom, atmv.Debut, atmv.Fin, atmv.Detail);
+                tache.AjouterTache(this.ConnectionInfos.UtilisateurConnecte.Id, atmv.Nom, atmv.Debut, atmv.Fin, atmv.Detail, at.ListCategory.SelectedItem.ToString());
             }
         }
 

@@ -4,36 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="500">
+             d:DesignHeight="150" d:DesignWidth="500">
     <Border Background="Gray" BorderBrush="Black" BorderThickness="2" >
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="235"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="235"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="30"/>
                 <RowDefinition Height="5"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="5"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.ColumnSpan="5" Background="Black" Foreground="White"/>
             <TextBlock Grid.Row="0" Grid.Column="1" Text="Categories" TextAlignment="Center" Background="Black" Foreground="White"/>
             <TextBlock Grid.Row="0" Grid.Column="3" Text="Taches" TextAlignment="Center" Background="Black" Foreground="White"/>
-            <Button Grid.Row="2" Grid.Column="3" Content="Ajouter tache" Command="{Binding AjouterTacheCommand}"  VerticalAlignment="Center" Style="{StaticResource BlackButton}"/>
-            <Button Grid.Row="4" Grid.Column="3" Content="Visualiser les taches"   Command="{Binding AfficheCommand}" VerticalAlignment="Center" Style="{StaticResource BlackButton}"/>
-            <Button Grid.Row="4" Grid.Column="1" Content="Visualiser les categories"  VerticalAlignment="Center" Command="{Binding VisualiserCategoryCommand}" Style="{StaticResource BlackButton}"/>
-            <Button Grid.Row="2" Grid.Column="1" Content="Ajouter categorie" Command="{Binding AjouterCategoryCommand}" VerticalAlignment="Center"  Style="{StaticResource BlackButton}"/>
-            <Button Grid.Row="6" Grid.Column="1" Content="Supprimer categorie"  VerticalAlignment="Center" Style="{StaticResource BlackButton}"/>
-            <Button Grid.Row="6" Grid.Column="3" Content="Supprimer taches" VerticalAlignment="Center" Style="{StaticResource BlackButton}"/>
+            <Button Grid.Row="4" Grid.Column="3" Content="Ajouter une tache" Command="{Binding AjouterTacheCommand}"  VerticalAlignment="Center" Style="{StaticResource BlackButton}"/>
+            <Button Grid.Row="2" Grid.Column="3" Content="Visualiser vos taches"   Command="{Binding AfficheCommand}" VerticalAlignment="Center" Style="{StaticResource BlackButton}"/>
+            <Button Grid.Row="2" Grid.Column="1" Content="Visualiser vos categories"  VerticalAlignment="Center" Command="{Binding VisualiserCategoryCommand}" Style="{StaticResource BlackButton}"/>
+            <Button Grid.Row="4" Grid.Column="1" Content="Ajouter une categorie" Command="{Binding AjouterCategoryCommand}" VerticalAlignment="Center"  Style="{StaticResource BlackButton}"/>
         </Grid>
     </Border>
 </UserControl>

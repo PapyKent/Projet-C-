@@ -20,12 +20,14 @@
             <TextBlock  Grid.Row="0" Grid.ColumnSpan="5"  FontWeight="Bold" TextAlignment="Center"  Text="Vos catégories"  VerticalAlignment="Center" Background="Black" Foreground="White"/>
             <Button Grid.Row="3" Grid.Column="1" Content="Supprimer" Width="120" Height="35" Style="{StaticResource BlackButton}"  Click="deleteCategory"/>
             <Button Grid.Row="3" Grid.Column="2" Content="Modifier" Width="120" Height="35"  Style="{StaticResource BlackButton}" Click="ModifierCategory"/>
-            <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Content="Retour" Width="120" Height="35"  Style="{StaticResource BlackButton}" />
+            <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Content="Retour" Width="120" Height="35"  Style="{StaticResource BlackButton}" Click="Retour" />
             <ListBox Name="CategoryList" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Nom : " Foreground="Green"/>
                             <TextBlock Text="{Binding Nom}"/>
+                            <TextBlock Text="   Par Defaut : " Foreground="Blue"/>
                             <TextBlock Text="{Binding Pardefaut}"/>
                         </StackPanel>
                     </DataTemplate>

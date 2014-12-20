@@ -10,7 +10,7 @@ namespace TodoListUCBL.BusinessServices
 {
     public class TacheService
     {
-        public BETache AjouterTache(int id, string nom, System.DateTime debut, System.DateTime fin, string detail)
+        public BETache AjouterTache(int id, string nom, System.DateTime debut, System.DateTime fin, string detail, string categorie)
         {
             TacheDao tacheDao = new TacheDao();
 
@@ -18,7 +18,7 @@ namespace TodoListUCBL.BusinessServices
             BETache tache = null;
             try
             {
-                tache = tacheDao.AjouterTache(id, nom, debut, fin, detail);
+                tache = tacheDao.AjouterTache(id, nom, debut, fin, detail, categorie);
                 if(tache == null)
                 {
                     throw new Exception("La tache est null.");
@@ -61,7 +61,7 @@ namespace TodoListUCBL.BusinessServices
             return tache;
         }
 
-         public BETache modifierTache(int id, string nom, string detail, DateTime debut, DateTime fin, int idUser)
+         public BETache modifierTache(int id, string nom, string detail, DateTime debut, DateTime fin, int idUser, string categorie)
         {
             TacheDao tacheDao = new TacheDao();
 
@@ -75,7 +75,7 @@ namespace TodoListUCBL.BusinessServices
 
             try
             {
-                tache = tacheDao.modifierTache(id, nom, detail, debut, fin,idUser);
+                tache = tacheDao.modifierTache(id, nom, detail, debut, fin,idUser, categorie);
                 if(tache == null)
                 {
                     throw new Exception("La tache est null.");

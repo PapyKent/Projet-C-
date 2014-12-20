@@ -18,7 +18,6 @@ namespace TodoListUCBL.WPFView.ModeleVue
         }
         public AjouterTacheMV(int id,string nom, DateTime debut, DateTime fin, string detail)
         {
-        
             this.nom = nom;
             this.debut = debut;
             this.fin = fin;

@@ -48,24 +48,35 @@ namespace TodoListUCBL.WPFView.Vue
 
         private void deleteCategory(object sender, RoutedEventArgs e)
         {
-            CategoryService cat = new CategoryService();
-            int idUser = (CategoryList.SelectedItem as TodoItemCat).User;
-            cat.SupprimerCategory((CategoryList.SelectedItem as TodoItemCat).Id);
-            BindData(cat.GetCategories(idUser));
+            if(CategoryList.SelectedItem!=null)
+            {
+                CategoryService cat = new CategoryService();
+                int idUser = (CategoryList.SelectedItem as TodoItemCat).User;
+                cat.SupprimerCategory((CategoryList.SelectedItem as TodoItemCat).Id);
+                BindData(cat.GetCategories(idUser));
+            }
         }
 
 
         private void ModifierCategory(object sender, RoutedEventArgs e)
         {
-            AjouterCategoryMV acmv = new AjouterCategoryMV((CategoryList.SelectedItem as TodoItemCat).Nom, (CategoryList.SelectedItem as TodoItemCat).Pardefaut);
-            AjouterCategory ac = new AjouterCategory(acmv);
-            if (ac.ShowDialog() == true)
+            if (CategoryList.SelectedItem != null)
             {
-                CategoryService cat = new CategoryService();
-                int idUser = (CategoryList.SelectedItem as TodoItemCat).User;
-                cat.ModifierCategory((CategoryList.SelectedItem as TodoItemCat).Id, acmv.Nom,acmv.Pardefaut,idUser);
-                BindData(cat.GetCategories(idUser));
+                AjouterCategoryMV acmv = new AjouterCategoryMV((CategoryList.SelectedItem as TodoItemCat).Nom, (CategoryList.SelectedItem as TodoItemCat).Pardefaut);
+                AjouterCategory ac = new AjouterCategory(acmv);
+                if (ac.ShowDialog() == true)
+                {
+                    CategoryService cat = new CategoryService();
+                    int idUser = (CategoryList.SelectedItem as TodoItemCat).User;
+                    cat.ModifierCategory((CategoryList.SelectedItem as TodoItemCat).Id, acmv.Nom, acmv.Pardefaut, idUser);
+                    BindData(cat.GetCategories(idUser));
+                }
             }
+        }
+
+        private void Retour(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 
@@ -104,6 +115,9 @@ namespace TodoListUCBL.WPFView.Vue
             set { user = value; }
         }
 
-       
+       public override string ToString()
+        {
+            return nom;
+        }
     }
 }

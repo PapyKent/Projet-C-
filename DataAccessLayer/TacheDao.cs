@@ -10,7 +10,7 @@ namespace TodoListUCBL.DataAccessLayer
 {
     public class TacheDao
     {
-        public BETache AjouterTache(int id, string nom, System.DateTime debut, System.DateTime fin, string detail)
+        public BETache AjouterTache(int id, string nom, System.DateTime debut, System.DateTime fin, string detail, string categorie)
         {
             //Contrôle
             if(string.IsNullOrWhiteSpace(nom))
@@ -40,7 +40,7 @@ namespace TodoListUCBL.DataAccessLayer
 
                 try
                 {
-                    t.Categories.Add(context.CategorySet.First(c => c.ParDefaut == true));
+                    t.Categories.Add(context.CategorySet.First(c => c.Nom == categorie));
                 }
                 catch (Exception e)
                 {
@@ -106,7 +106,7 @@ namespace TodoListUCBL.DataAccessLayer
             }
         }
 
-        public BETache modifierTache(int id, string nom, string detail, DateTime debut, DateTime fin, int idUser)
+        public BETache modifierTache(int id, string nom, string detail, DateTime debut, DateTime fin, int idUser, string categorie)
         {
             //Contrôle
             if (string.IsNullOrWhiteSpace(nom))
@@ -143,6 +143,15 @@ namespace TodoListUCBL.DataAccessLayer
                     t.Fin = fin;
                 }
 
+                try
+                {
+                    t.Categories.Add(context.CategorySet.First(c => c.Nom == categorie));
+                }
+                catch (Exception e)
+                {
+                    //Pas d'exception
+                }
+
                 context.SaveChanges();
 
                 BETache retour = new BETache();
@@ -151,6 +160,17 @@ namespace TodoListUCBL.DataAccessLayer
                 retour.Debut = t.Debut;
                 retour.Fin = t.Fin;
                 retour.Detail = t.Detail;
+
+              
+
+                foreach (Category cat in t.Categories)
+                {
+                    BECategory categ = new BECategory();
+                    categ.Id = cat.Id;
+                    categ.Nom = cat.Nom;
+                    categ.ParDefaut = cat.ParDefaut;
+                    retour.Categories.Add(categ);
+                }
 
                 BEEtat etat = new BEEtat();
                 etat.Libelle = t.Etat.Libelle;

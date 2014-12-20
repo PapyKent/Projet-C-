@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TodoListUCBL.BusinessEntities;
 
 namespace TodoListUCBL.WPFView.Vue
 {
@@ -24,9 +25,15 @@ namespace TodoListUCBL.WPFView.Vue
             InitializeComponent();
         }
 
-        public AjouterTache(ModeleVue.AjouterTacheMV atmv) : this()
+        public AjouterTache(ModeleVue.AjouterTacheMV atmv, List<BECategory> list) : this()
         {
             this.DataContext = atmv;
+            List<TodoItemCat> items = new List<TodoItemCat>();
+            foreach (BECategory c in list)
+            {
+                items.Add(new TodoItemCat() { Nom = c.Nom, Pardefaut = c.ParDefaut, Id = c.Id, User = c.Utilisateur.Id });
+            }
+            this.ListCategory.ItemsSource = items;
         }
 
         private void ConfirmationAjoutTache(object sender, RoutedEventArgs e)

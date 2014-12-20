@@ -66,13 +66,14 @@ namespace TodoListUCBL.WPFView.Vue
 
        private void ModifyButton_Click(object sender, RoutedEventArgs e)
        {
+           CategoryService cat = new CategoryService();
            AjouterTacheMV atmv = new AjouterTacheMV((TachesList.SelectedItem as TodoItem).Id, (TachesList.SelectedItem as TodoItem).Title, (TachesList.SelectedItem as TodoItem).Deb, (TachesList.SelectedItem as TodoItem).Fin, (TachesList.SelectedItem as TodoItem).Detail);
-           AjouterTache at = new AjouterTache(atmv);
+           AjouterTache at = new AjouterTache(atmv, cat.GetCategories((TachesList.SelectedItem as TodoItem).User));
            if (at.ShowDialog() == true)
            {
                TacheService tache = new TacheService();
                int idUser = (TachesList.SelectedItem as TodoItem).User;
-               tache.modifierTache((TachesList.SelectedItem as TodoItem).Id, atmv.Nom, atmv.Detail, atmv.Debut, atmv.Fin, idUser);
+               tache.modifierTache((TachesList.SelectedItem as TodoItem).Id, atmv.Nom, atmv.Detail, atmv.Debut, atmv.Fin, idUser, at.ListCategory.SelectedItem.ToString());
                BindData(tache.VisualiserTache(idUser));
            }
        }

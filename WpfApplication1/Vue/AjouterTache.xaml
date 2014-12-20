@@ -35,7 +35,7 @@
             <DatePicker SelectedDate="{Binding Fin,UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="2"/>
 
             <TextBlock Grid.Row="4" Grid.Column="1" TextAlignment="Right" Text="Categorie : " VerticalAlignment="Center"/>
-            <ComboBox Grid.Row="4" Grid.Column="2"/>
+            <ComboBox Grid.Row="4" Grid.Column="2" Name="ListCategory"/>
 
             <TextBlock Grid.Row="5"  Grid.Column="1" TextAlignment="Right" Text="Detail : "  VerticalAlignment="Center"/>
             <TextBox Grid.Row="5" Grid.Column="2" Grid.RowSpan="3" AcceptsReturn="True" Text="{Binding Detail,UpdateSourceTrigger=PropertyChanged}"/>
