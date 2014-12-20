@@ -26,6 +26,7 @@ namespace TodoListUCBL.WPFView.ModeleVue
             this.AjouterTacheCommand = new CommandImpl(this.ExecuteAjouterTache, this.CanExecuteAjouterTache);
             this.AfficheCommand = new CommandImpl(this.ExecuteAffiche, this.CanExecuteAffiche);
             this.AjouterCategoryCommand = new CommandImpl(this.ExecuteAjouterCategory, this.CanExecuteAjouterCategory);
+            this.VisualiserCategoryCommand = new CommandImpl(this.ExecuteVisualiserCategory, this.CanExecuteVisualiserCategory);
         }
 
         private ConnectionInfosMV connectionInfos;
@@ -130,6 +131,28 @@ namespace TodoListUCBL.WPFView.ModeleVue
             return true;
         }
         #endregion
-    
+
+        #region VisualiserCategory Command
+
+        public CommandImpl VisualiserCategoryCommand
+        {
+            get;
+            private set;
+        }
+
+        private void ExecuteVisualiserCategory(object o)
+        {
+            CategoryService cat = new CategoryService();
+            VisuCategoryMV vcmv = new VisuCategoryMV();
+            VisuCategory vc = new VisuCategory(vcmv, cat.GetCategories(this.ConnectionInfos.UtilisateurConnecte.Id));
+            vc.ShowDialog();
+        }
+
+        private bool CanExecuteVisualiserCategory(object o)
+        {
+            return true;
+        }
+
+        #endregion
     }
 }

@@ -12,15 +12,14 @@ namespace TodoListUCBL.DataAccessLayer
     {
         public BECategory AjouterCategory(int id, string nom, bool pardefaut)
         {
-            if(string.IsNullOrWhiteSpace(nom))
+            if (string.IsNullOrWhiteSpace(nom))
             {
                 throw new ArgumentException("Veuillez renseigner la category.", "nom");
             }
 
-            using(TodoListUCBLEntities context = new TodoListUCBLEntities())
+            using (TodoListUCBLEntities context = new TodoListUCBLEntities())
             {
                 Category c = new Category();
-                c.Id = id;
                 c.Nom = nom;
                 c.ParDefaut = pardefaut;
                 c.Utilisateur = context.UtilisateurSet.First(u => u.Id == id);
@@ -49,10 +48,10 @@ namespace TodoListUCBL.DataAccessLayer
 
         public bool SupprimerCategory(int id)
         {
-            using(TodoListUCBLEntities context = new TodoListUCBLEntities())
+            using (TodoListUCBLEntities context = new TodoListUCBLEntities())
             {
                 Category cat = context.CategorySet.FirstOrDefault(c => c.Id == id);
-                if(cat == null)
+                if (cat == null)
                 {
                     throw new ArgumentException("Veuillez renseigner une catégorie existante.", "id");
                 }
@@ -67,9 +66,41 @@ namespace TodoListUCBL.DataAccessLayer
 
         public bool CateogryExisteDeja(int id)
         {
-            using(TodoListUCBLEntities context = new TodoListUCBLEntities())
+            using (TodoListUCBLEntities context = new TodoListUCBLEntities())
             {
                 return context.CategorySet.Any(c => c.Id == id);
+            }
+        }
+
+        public List<BECategory> GetCategories(int idUser)
+        {
+            using (TodoListUCBLEntities context = new TodoListUCBLEntities())
+            {
+                List<BECategory> retour = new List<BECategory>();
+                IQueryable<Category> list = context.CategorySet.Where(c => c.Utilisateur.Id == idUser);
+                foreach (Category c in list)
+                {
+                    BECategory cat = new BECategory();
+                    cat.Id = c.Id;
+                    cat.Nom = c.Nom;
+                    cat.ParDefaut = c.ParDefaut;
+
+                    //BEUtilisateur user = new BEUtilisateur();
+                    //user.Email = cat.Utilisateur.Email;
+                    //user.Id = cat.Utilisateur.Id;
+                    //user.Login = cat.Utilisateur.Login;
+                    //user.Password = cat.Utilisateur.Password;
+                    //user.Prenom = cat.Utilisateur.Prenom;
+                    //cat.Utilisateur = user;
+
+                    //foreach (BETache t in cat.Taches)
+                    //{
+                    //    cat.Taches.Add(t);
+                    //}
+
+                    retour.Add(cat);
+                }
+                return retour;
             }
         }
     }

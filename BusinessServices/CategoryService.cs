@@ -19,14 +19,14 @@ namespace TodoListUCBL.BusinessServices
             try
             {
                 category = categoryDao.AjouterCategory(id, nom, pardefaut);
-                if(category == null)
+                if (category == null)
                 {
                     throw new Exception("La categorie est null.");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw new Exception("Une erreur est survenue lors de l'ajout de la catégorie",ex);
+                throw new Exception("Une erreur est survenue lors de l'ajout de la catégorie", ex);
             }
 
             return category;
@@ -37,7 +37,7 @@ namespace TodoListUCBL.BusinessServices
         {
             CategoryDao categoryDao = new CategoryDao();
 
-            if(!categoryDao.CateogryExisteDeja(id))
+            if (!categoryDao.CateogryExisteDeja(id))
             {
                 throw new ArgumentException("La categorie n'existe pas", "id");
             }
@@ -47,17 +47,33 @@ namespace TodoListUCBL.BusinessServices
             try
             {
                 category = categoryDao.SupprimerCategory(id);
-                if(category == false)
+                if (category == false)
                 {
                     throw new Exception("Erreur lors de la suppression de la category.");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw new Exception("Une erreur est survenue lors de la suppression de la tache.", ex);
+                throw new Exception("Une erreur est survenue lors de la suppression de la category.", ex);
             }
 
             return category;
+        }
+
+        public List<BECategory> GetCategories(int idUser)
+        {
+            CategoryDao categoryDao = new CategoryDao();
+            List<BECategory> retour = null;
+            try
+            {
+                retour = categoryDao.GetCategories(idUser);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Une erreur est survenue lors de la récupération des catégories.", ex);
+            }
+
+            return retour;
         }
     }
 }

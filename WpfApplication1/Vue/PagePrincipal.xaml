@@ -30,7 +30,7 @@
             <TextBlock Grid.Row="0" Grid.Column="3" Text="Taches" TextAlignment="Center" Background="Black" Foreground="White"/>
             <Button Grid.Row="2" Grid.Column="3" Content="Ajouter tache" Command="{Binding AjouterTacheCommand}"  VerticalAlignment="Center" Style="{StaticResource BlackButton}"/>
             <Button Grid.Row="4" Grid.Column="3" Content="Visualiser les taches"   Command="{Binding AfficheCommand}" VerticalAlignment="Center" Style="{StaticResource BlackButton}"/>
-            <Button Grid.Row="4" Grid.Column="1" Content="Visualiser les categories"  VerticalAlignment="Center" Style="{StaticResource BlackButton}"/>
+            <Button Grid.Row="4" Grid.Column="1" Content="Visualiser les categories"  VerticalAlignment="Center" Command="{Binding VisualiserCategoryCommand}" Style="{StaticResource BlackButton}"/>
             <Button Grid.Row="2" Grid.Column="1" Content="Ajouter categorie" Command="{Binding AjouterCategoryCommand}" VerticalAlignment="Center"  Style="{StaticResource BlackButton}"/>
             <Button Grid.Row="6" Grid.Column="1" Content="Supprimer categorie"  VerticalAlignment="Center" Style="{StaticResource BlackButton}"/>
             <Button Grid.Row="6" Grid.Column="3" Content="Supprimer taches" VerticalAlignment="Center" Style="{StaticResource BlackButton}"/>

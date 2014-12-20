@@ -71,6 +71,7 @@
     <Compile Include="ModeleVue\ConnectionInfosMV.cs" />
     <Compile Include="ModeleVue\NouvelUtilisateurMV.cs" />
     <Compile Include="ModeleVue\UtilisateurMV.cs" />
+    <Compile Include="ModeleVue\VisuCategoryMV.cs" />
     <Compile Include="ModeleVue\VisuTachesMV.cs" />
     <Compile Include="TODOLISTUCBLDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -92,6 +93,9 @@
     </Compile>
     <Compile Include="Vue\PagePrincipal.xaml.cs">
       <DependentUpon>PagePrincipal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\VisuCategory.xaml.cs">
+      <DependentUpon>VisuCategory.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vue\VisuTaches.xaml.cs">
       <DependentUpon>VisuTaches.xaml</DependentUpon>
@@ -127,6 +131,10 @@
     <Page Include="Vue\PagePrincipal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\VisuCategory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Vue\VisuTaches.xaml">
       <SubType>Designer</SubType>
