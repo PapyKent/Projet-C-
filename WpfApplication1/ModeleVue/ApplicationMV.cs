@@ -116,14 +116,9 @@ namespace TodoListUCBL.WPFView.ModeleVue
            
             VisuTachesMV vtmv = new VisuTachesMV();
             TacheService tache = new TacheService();
-            VisuTaches vt = new VisuTaches(vtmv, tache.VisualiserTache(this.ConnectionInfos.UtilisateurConnecte.Id));
-           
-            if (vt.ShowDialog() == true)
-            {
-                
-               
-               
-              }
+            VisuTaches vt = new VisuTaches(vtmv, tache.VisualiserTache(this.ConnectionInfos.UtilisateurConnecte.Id), this.ConnectionInfos.UtilisateurConnecte.Id);
+
+            vt.ShowDialog();
 
         }
 

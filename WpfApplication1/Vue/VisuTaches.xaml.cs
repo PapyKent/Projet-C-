@@ -23,7 +23,7 @@ namespace TodoListUCBL.WPFView.Vue
     /// </summary>
     public partial class VisuTaches : Window
     {
-        
+        private int idUserEnCours;
         public VisuTaches()
         {
            
@@ -32,9 +32,9 @@ namespace TodoListUCBL.WPFView.Vue
         }
        
         
-       public VisuTaches(ModeleVue.VisuTachesMV vtmv, List<BETache> list) : this()
+       public VisuTaches(ModeleVue.VisuTachesMV vtmv, List<BETache> list,int id) : this()
         {
-            
+            idUserEnCours = id;
             BindData(list);
             this.DataContext = vtmv;  
      
@@ -61,6 +61,48 @@ namespace TodoListUCBL.WPFView.Vue
                int idUser = (TachesList.SelectedItem as TodoItem).User;
                BindData(ts.VisualiserTache(idUser));
            
+       }
+
+
+       private void RechercheButton_Click(object sender, RoutedEventArgs e)
+       {
+           TacheService ts = new TacheService();
+
+           if (string.IsNullOrWhiteSpace(this.RechercheContent.Text))
+           {
+               
+               BindData(ts.VisualiserTache(idUserEnCours));
+           }
+
+           else
+           {
+               List<BETache> tmp = new List<BETache>();
+               tmp = ts.rechercherTache(this.RechercheContent.Text, idUserEnCours);
+               BindData(tmp);
+           }
+
+       }
+
+       private void RetardButton_Click(object sender, RoutedEventArgs e)
+       {
+           TacheService ts = new TacheService();
+               List<BETache> tmp = new List<BETache>();
+               tmp = ts.rechercherRetardTache(idUserEnCours);
+               BindData(tmp);
+           
+
+       }
+
+       private void TrieButton_Click(object sender, RoutedEventArgs e)
+       {
+
+           TacheService ts = new TacheService();
+           List<BETache> tmp = new List<BETache>();
+
+           //Là faut passer une liste de categories->direction tacheService -> trieTache
+           tmp = ts.trieTache(idUserEnCours);
+           BindData(tmp);
+
        }
 
 

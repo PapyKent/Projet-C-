@@ -47,24 +47,7 @@ namespace TodoListUCBL.WPFView.ModeleVue
         }
 
 
-        #region RemoveTask Command
-        public CommandImpl RemoveTask
-        {
-            get;
-            private set;
-        }
 
-
-        private void ExecuteRemove(object o)
-        {
-            //this.NouvelleTache = 
-        }
-
-        private bool CanExecuteSinscrire(object o)
-        {
-            return true;
-        }
-        #endregion
 
 
     }

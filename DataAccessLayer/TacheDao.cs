@@ -21,7 +21,7 @@ namespace TodoListUCBL.DataAccessLayer
             {
                 throw new ArgumentException("Veuillez renseigner le detail de la tache.", "detail");
             }
-            if(fin < DateTime.Now || fin < debut)
+            if( fin < debut)
             {
                 throw new ArgumentException("Veuillez renseigner une date de fin valide.", "fin");
             }
