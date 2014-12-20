@@ -89,6 +89,125 @@ namespace TodoListUCBL.BusinessServices
             return tache;
         }
 
+         public List<BETache> rechercherTache(string nom, int id)
+         {
+             List<BETache> retour = new List<BETache>();
+               TacheDao tacheDao = new TacheDao();
+
+             List<BETache> list = new List<BETache>();
+            
+
+             try
+             {
+                 list=tacheDao.getTaches(id);
+                 if (list == null)
+                 {
+                     throw new Exception("Erreur lors de la récupération des taches.");
+                 }
+
+                 else
+                 {
+                     foreach (BETache be in list)
+                     {
+                         if (be.Nom == nom)
+                         {
+                             retour.Add(be);
+                         }
+                     }
+
+
+                 }
+             }
+             catch (Exception ex)
+             {
+                // throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
+             }
+
+             return retour;
+         }
+
+
+         public List<BETache> rechercherRetardTache(int id)
+         {
+             List<BETache> retour = new List<BETache>();
+             TacheDao tacheDao = new TacheDao();
+
+             List<BETache> list = new List<BETache>();
+
+
+             try
+             {
+                 list = tacheDao.getTaches(id);
+                 if (list == null)
+                 {
+                     throw new Exception("Erreur lors de la récupération des taches.");
+                 }
+
+                 else
+                 {
+                     foreach (BETache be in list)
+                     {
+                         if (DateTime.Compare(be.Fin,DateTime.Now)<=0 )
+                         {
+                             retour.Add(be);
+                         }
+                     }
+
+
+                 }
+             }
+             catch (Exception ex)
+             {
+                 // throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
+             }
+
+             return retour;
+         }
+
+
+         public List<BETache> trieTache(int id) //là une liste de categories
+         {
+             List<BETache> retour = new List<BETache>();
+             TacheDao tacheDao = new TacheDao();
+
+             List<BETache> list = new List<BETache>();
+
+
+             try
+             {
+                 list = tacheDao.getTaches(id);
+                 if (list == null)
+                 {
+                     throw new Exception("Erreur lors de la récupération des taches.");
+                 }
+
+                 else
+                 {
+                     //foreach (BECategory cat in listCategories)
+                     // {
+                     foreach (BETache be in list)
+                     {
+                         if (1==1)/* la categories de la tache == la categorie du foreach */
+                         {
+                             retour.Add(be); // tu l'ajoutes
+                         }
+                     }
+
+                     // }
+                 }
+             }
+             catch (Exception ex)
+             {
+                 // throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
+             }
+             
+             return retour;
+         }
+         
+
+
+
+
          public  List<BETache> VisualiserTache(int id)
          {
              
