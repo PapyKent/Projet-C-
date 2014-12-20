@@ -46,6 +46,41 @@ namespace TodoListUCBL.DataAccessLayer
             }
         }
 
+        public BECategory ModifierCategory(int idCat, string nom, bool pardef, int idUser)
+        {
+            if (string.IsNullOrWhiteSpace(nom))
+            {
+                throw new ArgumentException("Veuillez renseigner la category.", "nom");
+            }
+
+            using (TodoListUCBLEntities context = new TodoListUCBLEntities())
+            {
+                Category c = context.CategorySet.FirstOrDefault(cat => cat.Id == idCat);
+                if(nom!=c.Nom)
+                {
+                    c.Nom = nom;
+                }
+                if(pardef!=c.ParDefaut)
+                {
+                    c.ParDefaut = pardef;
+                }
+
+                context.SaveChanges();
+
+                BECategory retour = new BECategory();
+                retour.Id = c.Id;
+                retour.Nom = c.Nom;
+                retour.ParDefaut = c.ParDefaut;
+
+                BEUtilisateur user = new BEUtilisateur();
+                user.Id = idUser;
+
+                retour.Utilisateur = user;
+
+                return retour;
+            }
+        }
+
         public bool SupprimerCategory(int id)
         {
             using (TodoListUCBLEntities context = new TodoListUCBLEntities())
@@ -92,6 +127,12 @@ namespace TodoListUCBL.DataAccessLayer
                     //user.Password = cat.Utilisateur.Password;
                     //user.Prenom = cat.Utilisateur.Prenom;
                     //cat.Utilisateur = user;
+
+                    Utilisateur u = context.UtilisateurSet.First(us => us.Id == idUser);
+                    BEUtilisateur user = new BEUtilisateur();
+                    user.Id = u.Id;
+
+                    cat.Utilisateur = user;
 
                     //foreach (BETache t in cat.Taches)
                     //{
