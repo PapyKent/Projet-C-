@@ -9,6 +9,15 @@ namespace TodoListUCBL.WPFView.ModeleVue
 {
     public class AjouterCategoryMV : INotifyPropertyChanged
     {
+        public AjouterCategoryMV()
+        {
+        }
+        public AjouterCategoryMV(string nom, bool pardefaut)
+        {
+            this.Nom = nom;
+            this.Pardefaut = pardefaut;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void RaisePropertyChanged(String property)
@@ -54,8 +63,6 @@ namespace TodoListUCBL.WPFView.ModeleVue
                     RaisePropertyChanged("ParDefaut");
                 }
             }
-        }
-
-        
+        } 
     }
 }

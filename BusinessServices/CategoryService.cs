@@ -60,6 +60,32 @@ namespace TodoListUCBL.BusinessServices
             return category;
         }
 
+        public BECategory ModifierCategory(int idCat, string nom, bool pardef, int idUser)
+        {
+            CategoryDao categoryDao = new CategoryDao();
+
+            if(!categoryDao.CateogryExisteDeja(idCat))
+            {
+                throw new ArgumentException("La categorie n'existe pas", "id");
+            }
+
+            BECategory category = null;
+            try
+            {
+                category = categoryDao.ModifierCategory(idCat, nom, pardef, idUser);
+                if (category == null)
+                {
+                    throw new Exception("La categorie est null.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Une erreur est survenue lors de la modification de la catégorie", ex);
+            }
+
+            return category;
+        }
+
         public List<BECategory> GetCategories(int idUser)
         {
             CategoryDao categoryDao = new CategoryDao();

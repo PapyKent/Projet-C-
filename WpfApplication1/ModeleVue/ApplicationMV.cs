@@ -154,5 +154,7 @@ namespace TodoListUCBL.WPFView.ModeleVue
         }
 
         #endregion
+
+        
     }
 }

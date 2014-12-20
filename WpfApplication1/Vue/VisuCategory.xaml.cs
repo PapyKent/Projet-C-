@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TodoListUCBL.BusinessEntities;
+using TodoListUCBL.BusinessServices;
+using TodoListUCBL.WPFView.ModeleVue;
+using TodoListUCBL.WPFView.Tools;
 
 namespace TodoListUCBL.WPFView.Vue
 {
@@ -38,9 +41,31 @@ namespace TodoListUCBL.WPFView.Vue
             List<TodoItemCat> items = new List<TodoItemCat>();
             foreach (BECategory c in list)
             {
-                items.Add(new TodoItemCat() { Nom = c.Nom, Pardefaut = c.ParDefaut });
+                items.Add(new TodoItemCat() { Nom = c.Nom, Pardefaut = c.ParDefaut, Id = c.Id, User = c.Utilisateur.Id});
             }
             CategoryList.ItemsSource = items;
+        }
+
+        private void deleteCategory(object sender, RoutedEventArgs e)
+        {
+            CategoryService cat = new CategoryService();
+            int idUser = (CategoryList.SelectedItem as TodoItemCat).User;
+            cat.SupprimerCategory((CategoryList.SelectedItem as TodoItemCat).Id);
+            BindData(cat.GetCategories(idUser));
+        }
+
+
+        private void ModifierCategory(object sender, RoutedEventArgs e)
+        {
+            AjouterCategoryMV acmv = new AjouterCategoryMV((CategoryList.SelectedItem as TodoItemCat).Nom, (CategoryList.SelectedItem as TodoItemCat).Pardefaut);
+            AjouterCategory ac = new AjouterCategory(acmv);
+            if (ac.ShowDialog() == true)
+            {
+                CategoryService cat = new CategoryService();
+                int idUser = (CategoryList.SelectedItem as TodoItemCat).User;
+                cat.ModifierCategory((CategoryList.SelectedItem as TodoItemCat).Id, acmv.Nom,acmv.Pardefaut,idUser);
+                BindData(cat.GetCategories(idUser));
+            }
         }
     }
 
@@ -62,5 +87,23 @@ namespace TodoListUCBL.WPFView.Vue
             get { return pardefaut; }
             set { pardefaut = value; }
         }
+
+        private int id;
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        private int user;
+
+        public int User
+        {
+            get { return user; }
+            set { user = value; }
+        }
+
+       
     }
 }
