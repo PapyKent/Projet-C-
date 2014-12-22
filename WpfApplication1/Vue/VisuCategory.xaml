@@ -27,7 +27,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Nom : " Foreground="Green"/>
                             <TextBlock Text="{Binding Nom}"/>
-                            <TextBlock Text="       Nom : " Foreground="Red"/>
+                            <TextBlock Text="       Par défaut : " Foreground="Red"/>
                             <TextBlock Text="{Binding ParDefaut}"/>
                         </StackPanel>
                     </DataTemplate>
