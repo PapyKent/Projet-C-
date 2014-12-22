@@ -25,10 +25,10 @@
             <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Nom,UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBlock Grid.Row="3" Grid.Column="1" Text="Par défaut :" VerticalAlignment="Center" TextAlignment="Right"/>
-            <CheckBox Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="ParDefaut" IsChecked="{Binding ParDefaut,UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="ParDefaut" IsChecked="{Binding Pardefaut,UpdateSourceTrigger=PropertyChanged}"/>
             
-            <Button Grid.Row="9" Grid.ColumnSpan="4"  Width="80" Content="Ajouter" Click="ConfirmationAjoutCategory" VerticalAlignment="Center"  Style="{StaticResource BlackButton}"/>
-
+            <Button Grid.Row="9" Grid.Column="2"  Width="80" Content="Ajouter" Click="ConfirmationAjoutCategory" VerticalAlignment="Center"  Style="{StaticResource BlackButton}"/>
+            <Button Grid.Row="9" Grid.Column="1"  Width="80" Content="Retour" Click="Retour" VerticalAlignment="Center"  Style="{StaticResource BlackButton}"/>
         </Grid>
     </Border>
 </Window>

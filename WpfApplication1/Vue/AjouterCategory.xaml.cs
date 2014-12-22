@@ -34,5 +34,10 @@ namespace TodoListUCBL.WPFView.Vue
             this.DialogResult = true;
             this.Close();
         }
+
+        private void Retour(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

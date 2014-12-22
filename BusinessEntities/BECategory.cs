@@ -17,5 +17,10 @@ namespace TodoListUCBL.BusinessEntities
 
         public BEUtilisateur Utilisateur { get; set; }
         public List<BETache> Taches { get; set; }
+
+        public override string ToString()
+        {
+            return Nom;
+        }
     }
 }

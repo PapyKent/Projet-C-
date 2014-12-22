@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TodoListUCBL.BusinessEntities;
 using TodoListUCBL.BusinessServices;
 using TodoListUCBL.WPFView.Tools;
 using TodoListUCBL.WPFView.Vue;
@@ -29,6 +30,8 @@ namespace TodoListUCBL.WPFView.ModeleVue
             this.VisualiserCategoryCommand = new CommandImpl(this.ExecuteVisualiserCategory, this.CanExecuteVisualiserCategory);
         }
 
+        
+        
         private ConnectionInfosMV connectionInfos;
 
         public ConnectionInfosMV ConnectionInfos
@@ -63,8 +66,8 @@ namespace TodoListUCBL.WPFView.ModeleVue
             AjouterTache at = new AjouterTache(atmv,cat.GetCategories(this.ConnectionInfos.UtilisateurConnecte.Id));
             if(at.ShowDialog() == true)
             {
-                TacheService tache = new TacheService();
-                tache.AjouterTache(this.ConnectionInfos.UtilisateurConnecte.Id, atmv.Nom, atmv.Debut, atmv.Fin, atmv.Detail, at.ListCategory.SelectedItem.ToString());
+                TacheService tache = new TacheService();          
+                tache.AjouterTache(this.ConnectionInfos.UtilisateurConnecte.Id, atmv.Nom, atmv.Debut, atmv.Fin, atmv.Detail);
             }
         }
 
@@ -150,8 +153,6 @@ namespace TodoListUCBL.WPFView.ModeleVue
         }
 
         #endregion
-
-
         
     }
 }

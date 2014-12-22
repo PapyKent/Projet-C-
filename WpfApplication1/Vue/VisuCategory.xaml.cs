@@ -38,12 +38,7 @@ namespace TodoListUCBL.WPFView.Vue
 
         public void BindData(List<BECategory> list)
         {
-            List<TodoItemCat> items = new List<TodoItemCat>();
-            foreach (BECategory c in list)
-            {
-                items.Add(new TodoItemCat() { Nom = c.Nom, Pardefaut = c.ParDefaut, Id = c.Id, User = c.Utilisateur.Id});
-            }
-            CategoryList.ItemsSource = items;
+            CategoryList.ItemsSource = list;
         }
 
         private void deleteCategory(object sender, RoutedEventArgs e)
@@ -51,8 +46,8 @@ namespace TodoListUCBL.WPFView.Vue
             if(CategoryList.SelectedItem!=null)
             {
                 CategoryService cat = new CategoryService();
-                int idUser = (CategoryList.SelectedItem as TodoItemCat).User;
-                cat.SupprimerCategory((CategoryList.SelectedItem as TodoItemCat).Id);
+                int idUser = (CategoryList.SelectedItem as BECategory).Utilisateur.Id;
+                cat.SupprimerCategory((CategoryList.SelectedItem as BECategory).Id);
                 BindData(cat.GetCategories(idUser));
             }
         }
@@ -62,13 +57,13 @@ namespace TodoListUCBL.WPFView.Vue
         {
             if (CategoryList.SelectedItem != null)
             {
-                AjouterCategoryMV acmv = new AjouterCategoryMV((CategoryList.SelectedItem as TodoItemCat).Nom, (CategoryList.SelectedItem as TodoItemCat).Pardefaut);
+                AjouterCategoryMV acmv = new AjouterCategoryMV((CategoryList.SelectedItem as BECategory).Nom, (CategoryList.SelectedItem as BECategory).ParDefaut);
                 AjouterCategory ac = new AjouterCategory(acmv);
                 if (ac.ShowDialog() == true)
                 {
                     CategoryService cat = new CategoryService();
-                    int idUser = (CategoryList.SelectedItem as TodoItemCat).User;
-                    cat.ModifierCategory((CategoryList.SelectedItem as TodoItemCat).Id, acmv.Nom, acmv.Pardefaut, idUser);
+                    int idUser = (CategoryList.SelectedItem as BECategory).Utilisateur.Id;
+                    cat.ModifierCategory((CategoryList.SelectedItem as BECategory).Id, acmv.Nom, acmv.Pardefaut, idUser);
                     BindData(cat.GetCategories(idUser));
                 }
             }
@@ -77,47 +72,6 @@ namespace TodoListUCBL.WPFView.Vue
         private void Retour(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-    }
-
-    public class TodoItemCat
-    {
-        private string nom;
-
-        public string Nom
-        {
-            get { return nom; }
-            set { nom = value; }
-        }
-
-
-        private bool pardefaut;
-
-        public bool Pardefaut
-        {
-            get { return pardefaut; }
-            set { pardefaut = value; }
-        }
-
-        private int id;
-
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-
-        private int user;
-
-        public int User
-        {
-            get { return user; }
-            set { user = value; }
-        }
-
-       public override string ToString()
-        {
-            return nom;
         }
     }
 }

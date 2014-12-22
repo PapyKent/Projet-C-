@@ -14,9 +14,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="30"/>
+                <RowDefinition Height="5"/>
                 <RowDefinition Height="30"/>
+                <RowDefinition Height="5"/>
                 <RowDefinition Height="30"/>
+                <RowDefinition Height="5"/>
                 <RowDefinition Height="30"/>
+                <RowDefinition Height="5"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
@@ -28,19 +32,29 @@
             <TextBlock  Grid.Row="1" Grid.Column="1" Text="Nom : "  VerticalAlignment="Center" TextAlignment="Right"/>
             <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Nom,UpdateSourceTrigger=PropertyChanged}"/>
 
-            <TextBlock  Grid.Row="2" Grid.Column="1" TextAlignment="Right" Text="Debut : "  VerticalAlignment="Center"/>
-            <DatePicker SelectedDate="{Binding Debut,UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="2"/>
+            <TextBlock  Grid.Row="3" Grid.Column="1" TextAlignment="Right" Text="Debut : "  VerticalAlignment="Center"/>
+            <DatePicker SelectedDate="{Binding Debut,UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="2"/>
 
-            <TextBlock Grid.Row="3" Grid.Column="1" TextAlignment="Right" Text="Fin : "  VerticalAlignment="Center"/>
-            <DatePicker SelectedDate="{Binding Fin,UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="2"/>
+            <TextBlock Grid.Row="5" Grid.Column="1" TextAlignment="Right" Text="Fin : "  VerticalAlignment="Center"/>
+            <DatePicker SelectedDate="{Binding Fin,UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="2"/>
 
-            <TextBlock Grid.Row="4" Grid.Column="1" TextAlignment="Right" Text="Categorie : " VerticalAlignment="Center"/>
-            <ComboBox Grid.Row="4" Grid.Column="2" Name="ListCategory"/>
+            <TextBlock Grid.Row="7" Grid.Column="1" TextAlignment="Right" Text="Categorie : " VerticalAlignment="Center"/>
+            <ComboBox Name="ListCategory" SelectedIndex="0" Grid.Row="7" Grid.Column="2">
+                <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding ParDefaut}" Width="20" />
+                        <TextBlock Text="{Binding Nom}" Width="100" />
+                    </StackPanel>
+                </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
-            <TextBlock Grid.Row="5"  Grid.Column="1" TextAlignment="Right" Text="Detail : "  VerticalAlignment="Center"/>
-            <TextBox Grid.Row="5" Grid.Column="2" Grid.RowSpan="3" AcceptsReturn="True" Text="{Binding Detail,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="9"  Grid.Column="1" TextAlignment="Right" Text="Detail : "  VerticalAlignment="Center"/>
+            <TextBox Grid.Row="9" Grid.Column="2" Grid.RowSpan="3" AcceptsReturn="True" Text="{Binding Detail,UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Button Grid.Row="9" Grid.ColumnSpan="4"  Width="80" Content="Ajouter" Click="ConfirmationAjoutTache" VerticalAlignment="Center"  Style="{StaticResource BlackButton}"/>
+            <Button Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="1"  Width="80" Content="Ajouter" Click="ConfirmationAjoutTache" VerticalAlignment="Center"  Style="{StaticResource BlackButton}"/>
+            <Button Grid.Row="13" Grid.Column="2" Content="Retour" Width="80" Click="Close" VerticalAlignment="Center"  Style="{StaticResource BlackButton}"/>
         </Grid>
     </Border>
 </Window>

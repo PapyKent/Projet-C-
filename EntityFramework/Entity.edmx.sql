@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/20/2014 10:55:57
--- Generated from EDMX file: C:\Users\Quentin\Documents\WpfApplication1\EntityFramework\Entity.edmx
+-- Date Created: 12/22/2014 19:50:26
+-- Generated from EDMX file: C:\Users\Yannick\CoursProjet\IUT 2A\C#.net\Projet C#\EntityFramework\Entity.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -149,7 +149,6 @@ ADD CONSTRAINT [FK_EtatTache]
     REFERENCES [dbo].[EtatSet]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_EtatTache'
 CREATE INDEX [IX_FK_EtatTache]
@@ -164,7 +163,6 @@ ADD CONSTRAINT [FK_UtilisateurTache]
     REFERENCES [dbo].[UtilisateurSet]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_UtilisateurTache'
 CREATE INDEX [IX_FK_UtilisateurTache]
@@ -179,7 +177,6 @@ ADD CONSTRAINT [FK_UtilisateurCategory]
     REFERENCES [dbo].[UtilisateurSet]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_UtilisateurCategory'
 CREATE INDEX [IX_FK_UtilisateurCategory]
@@ -203,7 +200,6 @@ ADD CONSTRAINT [FK_CategoryTache_Tache]
     REFERENCES [dbo].[TacheSet]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_CategoryTache_Tache'
 CREATE INDEX [IX_FK_CategoryTache_Tache]
