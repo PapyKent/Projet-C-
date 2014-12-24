@@ -47,8 +47,8 @@
 
             </ListBox>
 
-            <Button Name="AddCateg" Content="Ajouter >>" Grid.Column="2" Grid.Row="7" Width="100" Height="35"  Margin="130,39,133,77" Click="AddCateg_Click"/>
-            <Button Name="RemoveCateg" Content="&lt;&lt;Retirer" Grid.Column="2" Grid.Row="7" Width="100"  Height="35" Margin="130,91,133,25" Click="RemoveCateg_Click"/>
+            <Button Name="AddCateg" Content="Ajouter >>" Grid.Column="2" Grid.Row="7" Width="110" Height="35"  Margin="130,39,123,77" Click="AddCateg_Click"/>
+            <Button Name="RemoveCateg" Content="&lt;&lt;Retirer" Grid.Column="2" Grid.Row="7" Width="110"  Height="35" Margin="130,94,123,22" Click="RemoveCateg_Click"/>
 
             <TextBlock Grid.Row="9"  Grid.Column="1" TextAlignment="Right" Text="Detail : "  VerticalAlignment="Center"/>
             <TextBox Grid.Row="9" Grid.Column="2" Grid.RowSpan="3" AcceptsReturn="True" Text="{Binding Detail,UpdateSourceTrigger=PropertyChanged}"/>
