@@ -16,7 +16,9 @@ namespace TodoListUCBL.BusinessEntities
         public bool ParDefaut { get; set; }
 
         public BEUtilisateur Utilisateur { get; set; }
-        public List<BETache> Taches { get; set; }
+        public List<BETache> Taches { get; set;}
+
+        public bool isSelected { get; set; }
 
         public override string ToString()
         {

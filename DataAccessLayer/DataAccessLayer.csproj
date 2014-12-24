@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryDao.cs" />
+    <Compile Include="EtatDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TacheDao.cs" />
     <Compile Include="UtilisateurDao.cs" />

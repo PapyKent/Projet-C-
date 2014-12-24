@@ -10,7 +10,7 @@ namespace TodoListUCBL.DataAccessLayer
 {
     public class TacheDao
     {
-        public BETache AjouterTache(int idUser, string nom, System.DateTime debut, System.DateTime fin, string detail)
+        public BETache AjouterTache(int idUser, string nom, System.DateTime debut, System.DateTime fin, string detail, List<BECategory> categories)
         {
             //Contrôle
             if(string.IsNullOrWhiteSpace(nom))
@@ -35,17 +35,25 @@ namespace TodoListUCBL.DataAccessLayer
                 t.Debut = debut;
                 t.Fin = fin;
                 t.Detail = detail;
-                t.Etat = context.EtatSet.Add(context.EtatSet.First(c => c.Code == "007"));              
+                t.Etat = context.EtatSet.First(c => c.Libelle == "Créée");              
                 t.Utilisateur = context.UtilisateurSet.First(u => u.Id == idUser);
 
-                    try
+                foreach(BECategory cat in categories)
+                {
+                    t.Categories.Add(context.CategorySet.First(c => c.Id == cat.Id));
+                    Category categ = context.CategorySet.First(cc => cc.Id == cat.Id);
+                    categ.Taches.Add(t);
+                }
+
+                if(categories.Count()==0)
+                {
+                    List<Category> cat = context.CategorySet.Where(c => c.ParDefaut == true).ToList();
+                    foreach(Category tmp in cat)
                     {
-                        //t.Categories.Add(context.CategorySet.First(cat => cat.Id == ??));
-                    }
-                    catch (Exception e)
-                    {
-                        // ?
-                    }
+                        t.Categories.Add(tmp);
+                        tmp.Taches.Add(t);
+                    }                
+                }
 
                 context.TacheSet.Add(t);
                 context.SaveChanges();
@@ -73,7 +81,6 @@ namespace TodoListUCBL.DataAccessLayer
                     categ.Id = cat.Id;
                     categ.Nom = cat.Nom;
                     categ.ParDefaut = cat.ParDefaut;
-
                     retour.Categories.Add(categ);
                 }
 
@@ -97,13 +104,18 @@ namespace TodoListUCBL.DataAccessLayer
             using (TodoListUCBLEntities context = new TodoListUCBLEntities())
             {
                 //Si la tache existe
-                Tache tache = context.TacheSet.FirstOrDefault(t => t.Id == id);
+                Tache tache = context.TacheSet.Include("Categories").FirstOrDefault(t => t.Id == id);
                 if(tache == null)
                 {
                     throw new ArgumentException("Veuillez renseigner une tache existante.", "id");
                 }
                 else
                 {
+                    foreach(Category c in tache.Categories)
+                    {
+                        c.Taches.Remove(tache);
+                    }
+                    tache.Categories.Clear();
                     context.TacheSet.Remove(tache);
                     context.SaveChanges();
                     return true;
@@ -111,7 +123,7 @@ namespace TodoListUCBL.DataAccessLayer
             }
         }
 
-        public BETache modifierTache(int id, string nom, string detail, DateTime debut, DateTime fin, int idUser)
+        public BETache modifierTache(int id, string nom, string detail, DateTime debut, DateTime fin, int idUser, List<BECategory> categories, BEEtat statement)
         {
             //Contrôle
             if (string.IsNullOrWhiteSpace(nom))
@@ -122,7 +134,7 @@ namespace TodoListUCBL.DataAccessLayer
             {
                 throw new ArgumentException("Veuillez renseigner le detail de la tache.", "detail");
             }
-            if (fin < DateTime.Now || fin < debut)
+            if (fin < debut)
             {
                 throw new ArgumentException("Veuillez renseigner une date de fin valide.", "fin");
             }
@@ -130,7 +142,8 @@ namespace TodoListUCBL.DataAccessLayer
             //Enregistrement 
             using (TodoListUCBLEntities context = new TodoListUCBLEntities())
             {
-                Tache t = context.TacheSet.FirstOrDefault(p => p.Id == id);
+                Tache t = context.TacheSet.Include("Categories").Include("Utilisateur").Include("Etat").FirstOrDefault(p => p.Id == id);
+                //Contrôle de modification
                 if(nom!=t.Nom)
                 {
                     t.Nom = nom;
@@ -148,13 +161,31 @@ namespace TodoListUCBL.DataAccessLayer
                     t.Fin = fin;
                 }
 
-                try
+                t.Etat = context.EtatSet.First(e => e.Id == statement.Id);
+
+                //On supprime les liens entre la tache et ses categories
+                foreach(Category c in t.Categories)
                 {
-                       // t.Categories.Add(context.CategorySet.First(c => c.Id == cat.Id));
+                    c.Taches.Remove(t);
                 }
-                catch (Exception e)
+                t.Categories.Clear();
+
+                //On recréer les liens avec les nouvelles catégories
+                foreach(BECategory c in categories)
                 {
-                    //
+                    t.Categories.Add(context.CategorySet.First(cat => cat.Id == c.Id));
+                    Category categ = context.CategorySet.First(cat => cat.Id == c.Id);
+                    categ.Taches.Add(t);
+                }
+
+                if (categories.Count() == 0)
+                {
+                    List<Category> cat = context.CategorySet.Where(c => c.ParDefaut == true).ToList();
+                    foreach (Category tmp in cat)
+                    {
+                        t.Categories.Add(tmp);
+                        tmp.Taches.Add(t);
+                    }
                 }
 
                 context.SaveChanges();
@@ -211,7 +242,7 @@ namespace TodoListUCBL.DataAccessLayer
             using (TodoListUCBLEntities context = new TodoListUCBLEntities())
             {
                 //Récup de l'utilisateur pour toute la suite
-                Utilisateur userBD = context.UtilisateurSet.First(c => c.Id == idUser);
+                Utilisateur userBD = context.UtilisateurSet.First(u => u.Id == idUser);
                 BEUtilisateur user = new BEUtilisateur();
                 user.Id = userBD.Id;
                 user.Login = userBD.Login;
@@ -222,7 +253,7 @@ namespace TodoListUCBL.DataAccessLayer
                 
                 //Récup de la liste des tâches liées a l'utilisateur
                 List<BETache> retour = new List<BETache>();
-                IQueryable<Tache> list = context.TacheSet.Where(c => c.Utilisateur.Id == idUser);
+                List<Tache> list = context.TacheSet.Include("Categories").Include("Utilisateur").Include("Etat").Where(c => c.Utilisateur.Id == idUser).ToList();
                
                 foreach (Tache t in list)
                 {
@@ -240,9 +271,19 @@ namespace TodoListUCBL.DataAccessLayer
                         cat.Nom = c.Nom;
                         cat.ParDefaut = c.ParDefaut;
                         cat.Utilisateur = user;
+
+                        tach.Categories.Add(cat);
                     }
 
                     tach.Utilisateur = user;
+
+                    BEEtat et = new BEEtat();
+                    et.Id = t.Etat.Id;
+                    et.Libelle = t.Etat.Libelle;
+                    et.Code = t.Etat.Code;
+
+                    tach.Etat = et;
+
                     retour.Add(tach);
                 }
           

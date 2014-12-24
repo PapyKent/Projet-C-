@@ -21,7 +21,15 @@ namespace TodoListUCBL.DataAccessLayer
             {
                 Category c = new Category();
                 c.Nom = nom;
-                c.ParDefaut = pardefaut;
+                if (context.CategorySet.Include("Utilisateur").Where(cat => cat.Utilisateur.Id == idUser).ToList().Count() == 0)
+                {
+                    c.ParDefaut = true;
+                }
+                else
+                {
+                    c.ParDefaut = pardefaut;
+                }
+                
                 c.Utilisateur = context.UtilisateurSet.First(u => u.Id == idUser);
 
                 context.CategorySet.Add(c);
@@ -62,7 +70,22 @@ namespace TodoListUCBL.DataAccessLayer
                 }
                 if(pardef!=c.ParDefaut)
                 {
-                    c.ParDefaut = pardef;
+                    if (context.CategorySet.Include("Utilisateur").Where(cat => cat.Utilisateur.Id == idUser).ToList().Count() == 1)
+                    {
+                        c.ParDefaut = true;
+                    }
+                    else
+                    {
+                        c.ParDefaut = pardef;
+                    }                    
+                }
+
+                List<Category> LastCateg = context.CategorySet.Include("Taches").Where(cc => cc.Utilisateur.Id == idUser && cc.ParDefaut == true).ToList();
+
+                if (LastCateg.Count() == 1)
+                {
+                    Category categ = context.CategorySet.First(nomdevariabletrèschiantadefinirsansconflit => nomdevariabletrèschiantadefinirsansconflit.Utilisateur.Id == idUser && nomdevariabletrèschiantadefinirsansconflit.ParDefaut == false);
+                    categ.ParDefaut = true;
                 }
 
                 context.SaveChanges();
@@ -88,18 +111,32 @@ namespace TodoListUCBL.DataAccessLayer
             }
         }
 
-        public bool SupprimerCategory(int id)
+        public bool SupprimerCategory(int id, int idUser)
         {
             using (TodoListUCBLEntities context = new TodoListUCBLEntities())
             {
-                Category cat = context.CategorySet.FirstOrDefault(c => c.Id == id);
+                Category cat = context.CategorySet.Include("Taches").FirstOrDefault(c => c.Id == id);
                 if (cat == null)
                 {
                     throw new ArgumentException("Veuillez renseigner une catégorie existante.", "id");
                 }
                 else
                 {
+                    foreach(Tache t in cat.Taches)
+                    {
+                        t.Categories.Remove(cat);
+                        
+                    }
                     context.CategorySet.Remove(cat);
+
+                    List<Category> LastCateg = context.CategorySet.Include("Taches").Where(c => c.Utilisateur.Id == idUser && c.ParDefaut==true).ToList();
+
+                    if (LastCateg.Count() == 1)
+                    {
+                        Category c = context.CategorySet.First(nomdevariabletrèschiantadefinirsansconflit => nomdevariabletrèschiantadefinirsansconflit.Utilisateur.Id == idUser && nomdevariabletrèschiantadefinirsansconflit.ParDefaut == false);
+                        c.ParDefaut = true;
+                    }
+
                     context.SaveChanges();
                     return true;
                 }
@@ -128,7 +165,7 @@ namespace TodoListUCBL.DataAccessLayer
                 user.Email = userBD.Email;
 
                 List<BECategory> retour = new List<BECategory>();
-                IQueryable<Category> list = context.CategorySet.Where(c => c.Utilisateur.Id == idUser);
+                List<Category> list = context.CategorySet.Include("Utilisateur").Include("Taches").Where(c => c.Utilisateur.Id == idUser).ToList();
 
                 foreach (Category c in list)
                 {
@@ -137,6 +174,18 @@ namespace TodoListUCBL.DataAccessLayer
                     cat.Nom = c.Nom;
                     cat.ParDefaut = c.ParDefaut;
                     cat.Utilisateur = user;
+
+                    foreach(Tache t in c.Taches)
+                    {
+                        BETache tache = new BETache();
+                        tache.Id = t.Id;
+                        tache.Nom = t.Nom;
+                        tache.Debut = t.Debut;
+                        tache.Fin = t.Fin;
+                        tache.Detail = t.Detail;
+
+                        cat.Taches.Add(tache);
+                    }
 
                     retour.Add(cat);
                 }

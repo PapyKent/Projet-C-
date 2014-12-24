@@ -16,9 +16,9 @@ using TodoListUCBL.BusinessEntities;
 namespace TodoListUCBL.WPFView.Vue
 {
     /// <summary>
-    /// Logique d'interaction pour AjouterTache.xaml
+    /// Logique d'interaction pour ModifierTache.xaml
     /// </summary>
-    public partial class AjouterTache : Window
+    public partial class ModifierTache : Window
     {
         private List<BECategory> OriginalCategories;
         private List<BECategory> CategoriesToAdd;
@@ -28,20 +28,48 @@ namespace TodoListUCBL.WPFView.Vue
             get { return CategoriesToAdd; }
             set { CategoriesToAdd = value; }
         }
-        public AjouterTache()
+        public ModifierTache()
         {
             InitializeComponent();
         }
 
-        public AjouterTache(ModeleVue.AjouterTacheMV atmv, List<BECategory> list) : this()
+        public ModifierTache(ModeleVue.ModifierTacheMV mtmv, List<BECategory> listAll, List<BECategory> listUsed,  List<BEEtat> etats)
+            : this()
         {
-            this.DataContext = atmv;
-            this.OriginalCategories = list;
-            this.CategoriesToAdd = new List<BECategory>();
+            this.DataContext = mtmv;
+            List<BECategory> tmp = new List<BECategory>();
+            foreach(BECategory c in listAll)
+            {
+                foreach(BECategory cat in listUsed)
+                {
+                    if(c.Id==cat.Id)
+                    {
+                        tmp.Add(c);
+                    }
+                }
+            }
+
+            foreach(BECategory c in tmp)
+            {
+                listAll.Remove(c);
+            }
+
+            OriginalCategories = listAll;
+            CategoriesToAdd = listUsed;
+            this.ListEtat.ItemsSource = etats;
+            int i = 0;
+            foreach(BEEtat e in etats)
+            {
+                if(e.Id == mtmv.Etat.Id)
+                {
+                    this.ListEtat.SelectedIndex = i;
+                }
+                i++;
+            }
             this.Refresh();
         }
 
-        private void ConfirmationAjoutTache(object sender, RoutedEventArgs e)
+        private void ModifierTacheButton(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
             this.Close();
@@ -54,7 +82,7 @@ namespace TodoListUCBL.WPFView.Vue
 
         private void AddCateg_Click(object sender, RoutedEventArgs e)
         {
-            if(this.ListEntr.SelectedItem!=null)
+            if (this.ListEntr.SelectedItem != null)
             {
                 BECategory c = this.ListEntr.SelectedItem as BECategory;
                 this.CategoriesToAdd.Add(c);

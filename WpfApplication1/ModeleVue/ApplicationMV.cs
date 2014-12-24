@@ -66,8 +66,9 @@ namespace TodoListUCBL.WPFView.ModeleVue
             AjouterTache at = new AjouterTache(atmv,cat.GetCategories(this.ConnectionInfos.UtilisateurConnecte.Id));
             if(at.ShowDialog() == true)
             {
-                TacheService tache = new TacheService();          
-                tache.AjouterTache(this.ConnectionInfos.UtilisateurConnecte.Id, atmv.Nom, atmv.Debut, atmv.Fin, atmv.Detail);
+                TacheService tache = new TacheService();
+                List<BECategory> listeCat = new List<BECategory>();
+                tache.AjouterTache(this.ConnectionInfos.UtilisateurConnecte.Id, atmv.Nom, atmv.Debut, atmv.Fin, atmv.Detail, at.CategoriesToAdd1);
             }
         }
 
@@ -153,6 +154,6 @@ namespace TodoListUCBL.WPFView.ModeleVue
         }
 
         #endregion
-        
+
     }
 }

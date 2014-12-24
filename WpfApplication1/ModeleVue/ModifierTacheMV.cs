@@ -8,19 +8,37 @@ using TodoListUCBL.BusinessEntities;
 
 namespace TodoListUCBL.WPFView.ModeleVue
 {
-    
-    public class AjouterTacheMV : INotifyPropertyChanged
+    public class ModifierTacheMV
     {
-        public AjouterTacheMV()
+        private List<BECategory> categsUsed;
+
+        public List<BECategory> CategsUsed
         {
-           
+            get { return categsUsed; }
+            set { categsUsed = value; }
         }
-        public AjouterTacheMV(int id,string nom, DateTime debut, DateTime fin, string detail)
+
+        private BEEtat etat;
+
+        public BEEtat Etat
         {
+            get { return etat; }
+            set { etat = value; }
+        }
+
+        public ModifierTacheMV(int id, string nom, DateTime debut, DateTime fin, string detail, List<BECategory> alreadyUsed, BEEtat etat)
+        {
+            this.Etat = etat;
+            this.id = id;
             this.nom = nom;
             this.debut = debut;
             this.fin = fin;
             this.detail = detail;
+            this.categsUsed = new List<BECategory>();
+            foreach(BECategory cat in alreadyUsed)
+            {
+                this.categsUsed.Add(cat);
+            }
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -30,6 +48,13 @@ namespace TodoListUCBL.WPFView.ModeleVue
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
         }
 
+        private int id;
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
         private string nom;
         private DateTime debut = DateTime.Now;
         private DateTime fin = DateTime.Now;

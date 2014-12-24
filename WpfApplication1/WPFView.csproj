@@ -73,6 +73,10 @@
     <Compile Include="ModeleVue\UtilisateurMV.cs" />
     <Compile Include="ModeleVue\VisuCategoryMV.cs" />
     <Compile Include="ModeleVue\VisuTachesMV.cs" />
+    <Compile Include="ModeleVue\ModifierTacheMV.cs" />
+    <Compile Include="Vue\ModifierTache.xaml.cs">
+      <DependentUpon>ModifierTache.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TODOLISTUCBLDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -112,6 +116,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Vue\ModifierTache.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vue\AjouterCategory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

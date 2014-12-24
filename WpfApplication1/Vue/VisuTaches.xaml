@@ -40,10 +40,12 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Nom  :" Foreground="Green"/>
                             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Nom}" />
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Debut :" Foreground="LightBlue"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Debut :" Foreground="Blue"/>
                             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Debut}" />
                             <TextBlock Grid.Row="1" Grid.Column="2" Text="Fin :" Foreground="Red"/>
                             <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Fin}" />
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Etat :" Foreground="Maroon"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Etat}" />
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

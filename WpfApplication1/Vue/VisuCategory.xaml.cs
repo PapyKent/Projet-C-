@@ -47,7 +47,7 @@ namespace TodoListUCBL.WPFView.Vue
             {
                 CategoryService cat = new CategoryService();
                 int idUser = (CategoryList.SelectedItem as BECategory).Utilisateur.Id;
-                cat.SupprimerCategory((CategoryList.SelectedItem as BECategory).Id);
+                cat.SupprimerCategory((CategoryList.SelectedItem as BECategory).Id, (CategoryList.SelectedItem as BECategory).Utilisateur.Id);
                 BindData(cat.GetCategories(idUser));
             }
         }

@@ -10,7 +10,7 @@ namespace TodoListUCBL.BusinessServices
 {
     public class TacheService
     {
-        public BETache AjouterTache(int id, string nom, System.DateTime debut, System.DateTime fin, string detail)
+        public BETache AjouterTache(int id, string nom, System.DateTime debut, System.DateTime fin, string detail, List<BECategory> categories)
         {
             TacheDao tacheDao = new TacheDao();
 
@@ -18,7 +18,7 @@ namespace TodoListUCBL.BusinessServices
             BETache tache = null;
             try
             {
-                tache = tacheDao.AjouterTache(id, nom, debut, fin, detail);
+                tache = tacheDao.AjouterTache(id, nom, debut, fin, detail, categories);
                 if (tache == null)
                 {
                     throw new Exception("La tache est null.");
@@ -61,7 +61,7 @@ namespace TodoListUCBL.BusinessServices
             return tache;
         }
 
-        public BETache modifierTache(int id, string nom, string detail, DateTime debut, DateTime fin, int idUser)
+        public BETache modifierTache(int id, string nom, string detail, DateTime debut, DateTime fin, int idUser, List<BECategory> categories, BEEtat etat)
         {
             TacheDao tacheDao = new TacheDao();
 
@@ -75,7 +75,7 @@ namespace TodoListUCBL.BusinessServices
 
             try
             {
-                tache = tacheDao.modifierTache(id, nom, detail, debut, fin, idUser);
+                tache = tacheDao.modifierTache(id, nom, detail, debut, fin, idUser, categories, etat);
                 if (tache == null)
                 {
                     throw new Exception("La tache est null.");
@@ -83,7 +83,7 @@ namespace TodoListUCBL.BusinessServices
             }
             catch (Exception ex)
             {
-                //throw new Exception("Une erreur est survenue lors de la modification de la tache.", ex);
+                throw new Exception("Une erreur est survenue lors de la modification de la tache.", ex);
             }
 
             return tache;
@@ -120,7 +120,7 @@ namespace TodoListUCBL.BusinessServices
             }
             catch (Exception ex)
             {
-                // throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
+                 throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
             }
 
             return retour;
@@ -147,7 +147,7 @@ namespace TodoListUCBL.BusinessServices
                 {
                     foreach (BETache be in list)
                     {
-                        if (DateTime.Compare(be.Fin, DateTime.Now) <= 0)
+                        if (DateTime.Compare(be.Fin, DateTime.Now) <= 0 && be.Etat.Libelle!="Terminée")
                         {
                             retour.Add(be);
                         }
@@ -158,7 +158,7 @@ namespace TodoListUCBL.BusinessServices
             }
             catch (Exception ex)
             {
-                // throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
+                 throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
             }
 
             return retour;
@@ -204,7 +204,7 @@ namespace TodoListUCBL.BusinessServices
             }
             catch (Exception ex)
             {
-                // throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
+                 throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
             }
 
             return retour;
@@ -232,7 +232,7 @@ namespace TodoListUCBL.BusinessServices
             }
             catch (Exception ex)
             {
-                // throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
+                 throw new Exception("Une erreur est survenue lors de la récupération des taches", ex);
             }
 
             return list;

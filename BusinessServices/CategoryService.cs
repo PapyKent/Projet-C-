@@ -33,7 +33,7 @@ namespace TodoListUCBL.BusinessServices
         }
 
 
-        public bool SupprimerCategory(int id)
+        public bool SupprimerCategory(int id, int idUser)
         {
             CategoryDao categoryDao = new CategoryDao();
 
@@ -46,7 +46,7 @@ namespace TodoListUCBL.BusinessServices
 
             try
             {
-                category = categoryDao.SupprimerCategory(id);
+                category = categoryDao.SupprimerCategory(id, idUser);
                 if (category == false)
                 {
                     throw new Exception("Erreur lors de la suppression de la category.");

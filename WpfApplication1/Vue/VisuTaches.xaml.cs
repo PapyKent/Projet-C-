@@ -94,7 +94,6 @@ namespace TodoListUCBL.WPFView.Vue
            List<BETache> tmp = new List<BETache>();
            tmp = ts.trieTache(idUserEnCours);
            BindData(tmp);
-
        }
 
 
@@ -102,14 +101,15 @@ namespace TodoListUCBL.WPFView.Vue
        {
            if(this.TachesList.SelectedItem!=null)
            {
-               CategoryService cat = new CategoryService();
-               AjouterTacheMV atmv = new AjouterTacheMV((TachesList.SelectedItem as BETache).Id, (TachesList.SelectedItem as BETache).Nom, (TachesList.SelectedItem as BETache).Debut, (TachesList.SelectedItem as BETache).Fin, (TachesList.SelectedItem as BETache).Detail);
-               AjouterTache at = new AjouterTache(atmv, cat.GetCategories((TachesList.SelectedItem as BETache).Utilisateur.Id));
-               if (at.ShowDialog() == true)
+              CategoryService cat = new CategoryService();
+              ModifierTacheMV mtmv = new ModifierTacheMV((TachesList.SelectedItem as BETache).Id, (TachesList.SelectedItem as BETache).Nom, (TachesList.SelectedItem as BETache).Debut, (TachesList.SelectedItem as BETache).Fin,(TachesList.SelectedItem as BETache).Detail, (TachesList.SelectedItem as BETache).Categories, (TachesList.SelectedItem as BETache).Etat);
+              EtatService etat = new EtatService();
+              ModifierTache mt = new ModifierTache(mtmv, cat.GetCategories(idUserEnCours), mtmv.CategsUsed, etat.GetEtats());
+               if (mt.ShowDialog() == true)
                {
                    TacheService tache = new TacheService();
                    int idUser = (TachesList.SelectedItem as BETache).Utilisateur.Id;
-                   tache.modifierTache((TachesList.SelectedItem as BETache).Id, atmv.Nom, atmv.Detail, atmv.Debut, atmv.Fin, idUser);
+                   tache.modifierTache((TachesList.SelectedItem as BETache).Id, mtmv.Nom, mtmv.Detail, mtmv.Debut, mtmv.Fin, idUserEnCours,mt.CategoriesToAdd1, (mt.ListEtat.SelectedItem as BEEtat));
                    BindData(tache.VisualiserTache(idUser));
                }
            }
